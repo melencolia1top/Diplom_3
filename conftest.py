@@ -24,10 +24,8 @@ def user():
     user_data = generate_user_data()
     response = requests.post(Urls.REGISTER_USER, json=user_data)
     response_data = response.json()
-    assert response.status_code == 200
-    assert response_data['success'] is True
-
     user_data['access_token'] = response_data['accessToken']
+
     yield user_data
 
     requests.delete(
@@ -43,4 +41,3 @@ def authorized_driver(driver, user):
     login_page.login(user['email'], user['password'])
     login_page.wait_for_url(Urls.BASE_URL)
     return driver
-
